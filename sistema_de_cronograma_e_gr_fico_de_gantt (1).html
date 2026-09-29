@@ -106,6 +106,82 @@
 </head>
 <body class="h-full flex flex-col font-sans overflow-hidden bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased transition-colors duration-200">
 
+    <section id="authScreen" class="fixed inset-0 z-[100] overflow-y-auto bg-slate-100 dark:bg-slate-950 px-4 py-8 sm:px-6 sm:py-12">
+        <div class="mx-auto flex min-h-full w-full max-w-6xl items-center justify-center">
+            <div class="grid w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900 lg:grid-cols-[1.05fr_0.95fr]">
+                <div class="relative hidden overflow-hidden bg-slate-950 p-10 text-white lg:flex lg:flex-col lg:justify-center">
+                    <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-600/20 blur-3xl"></div>
+                    <div class="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-indigo-600/20 blur-3xl"></div>
+                    <div class="relative">
+                        <div class="mb-8 flex items-center gap-3">
+                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 shadow-lg shadow-blue-600/20">
+                                <i class="fa-solid fa-chart-gantt text-xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold">GanttPro</h2>
+                                <p class="text-xs text-slate-400">Gestão segura de projetos</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-semibold text-blue-300">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            Ambiente protegido
+                        </span>
+                        <h3 class="mt-6 max-w-md text-3xl font-bold leading-tight">Planeje com clareza e acesse seus projetos de qualquer lugar.</h3>
+                        <p class="mt-4 max-w-md text-sm leading-6 text-slate-400">Cada conta possui um espaço individual, com login por e-mail e senha e dados separados por usuário.</p>
+                    </div>
+                </div>
+
+                <div class="p-6 sm:p-10">
+                    <div class="mb-8 flex items-center gap-3 lg:hidden">
+                        <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
+                            <i class="fa-solid fa-chart-gantt text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">GanttPro</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Gestão segura de projetos</p>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Acesse sua conta</h2>
+
+                    <form id="loginForm" onsubmit="handleLogin(event)" class="mt-6 space-y-4">
+                        <div>
+                            <label for="loginEmail" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">E-mail</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input id="loginEmail" type="email" autocomplete="email" required class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-10 pr-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="voce@empresa.com">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="mb-1.5 flex items-center justify-between">
+                                <label for="loginPassword" class="text-xs font-semibold text-slate-700 dark:text-slate-300">Senha</label>
+                                <button type="button" onclick="resetPassword()" class="text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400">Esqueci minha senha</button>
+                            </div>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input id="loginPassword" type="password" autocomplete="current-password" minlength="6" required class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-10 pr-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="Sua senha">
+                            </div>
+                        </div>
+                        <button id="loginSubmitButton" type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 disabled:cursor-not-allowed disabled:opacity-60">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span>Entrar</span>
+                        </button>
+                    </form>
+
+                    <p id="authStatus" class="mt-4 min-h-5 text-center text-xs text-slate-500 dark:text-slate-400" role="status" aria-live="polite"></p>
+
+                    <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-center dark:border-slate-800 dark:bg-slate-950">
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Ainda não possui uma conta?</p>
+                        <button type="button" onclick="openRegisterModal()" class="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-4 py-2.5 text-sm font-semibold text-blue-600 transition hover:border-blue-500 hover:bg-blue-50 dark:border-blue-900 dark:bg-slate-900 dark:text-blue-400 dark:hover:border-blue-700 dark:hover:bg-blue-950/40">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Criar conta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-3 flex flex-wrap items-center justify-between gap-4 shrink-0 shadow-sm dark:shadow-lg z-30 transition-colors">
         <div class="flex items-center gap-3">
             <div class="bg-gradient-to-br from-blue-500 to-indigo-600 p-2.5 rounded-xl shadow-md shadow-blue-500/20 text-white">
@@ -126,6 +202,39 @@
 
         <!-- Project Presets & Action Buttons -->
         <div class="flex items-center gap-2 flex-wrap">
+            <div id="accountMenu" class="relative">
+                <button id="accountMenuButton" type="button" onclick="toggleAccountMenu()" aria-expanded="false" class="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-left transition hover:border-blue-300 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-blue-500/50">
+                    <span id="accountAvatar" class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white">G</span>
+                    <span class="hidden max-w-36 sm:block">
+                        <span id="accountDisplayName" class="block truncate text-xs font-semibold text-slate-700 dark:text-slate-200">Minha conta</span>
+                        <span id="accountEmail" class="block truncate text-[10px] text-slate-400">Carregando...</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                </button>
+                <div id="accountDropdown" class="absolute right-0 top-full z-50 mt-2 hidden w-72 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-900">
+                    <div class="border-b border-slate-100 px-4 py-3 dark:border-slate-800">
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="truncate text-sm font-semibold text-slate-800 dark:text-slate-100" id="accountDropdownName">Minha conta</p>
+                            <span id="accountRoleBadge" class="hidden rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-600 dark:bg-blue-950/50 dark:text-blue-300">Administrador</span>
+                        </div>
+                        <p class="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400" id="accountDropdownEmail">Carregando...</p>
+                    </div>
+                    <div class="p-2">
+                        <button id="adminPanelButton" type="button" onclick="openAdminPanel()" class="hidden w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-semibold text-blue-600 transition hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-950/40 flex">
+                            <i class="fa-solid fa-user-shield w-4 text-center"></i>
+                            Painel administrativo
+                        </button>
+                        <button type="button" onclick="openPrivacyModal()" class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-blue-600 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-blue-400">
+                            <i class="fa-solid fa-shield-halved w-4 text-center"></i>
+                            Aviso de Privacidade
+                        </button>
+                        <button type="button" onclick="handleLogout()" class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-semibold text-rose-600 transition hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/30">
+                            <i class="fa-solid fa-arrow-right-from-bracket w-4 text-center"></i>
+                            Sair da conta
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg p-1 border border-slate-200 dark:border-slate-700/80 gap-1">
                 <span class="text-xs font-medium text-slate-500 dark:text-slate-400 px-2">Projeto:</span>
                 <select id="projectSelect" onchange="switchProject(this.value)" class="bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-slate-200 border-none rounded-md px-2 py-1.5 focus:ring-2 focus:ring-blue-500 font-medium outline-none cursor-pointer">
@@ -454,68 +563,233 @@
         </div>
     </div>
 
-    <div id="toast" class="fixed bottom-5 right-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs z-50 opacity-0 pointer-events-none transition-all duration-300 transform translate-y-2">
+    <div id="registerModal" class="fixed inset-0 z-[120] bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+            <div class="flex items-start justify-between border-b border-slate-200 pb-4 dark:border-slate-700">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">Novo acesso</p>
+                    <h3 class="mt-1 text-lg font-bold text-slate-900 dark:text-white">Criar conta</h3>
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Informe seus dados para acessar o GanttPro.</p>
+                </div>
+                <button type="button" onclick="closeRegisterModal()" class="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="registerForm" onsubmit="registerAccount(event)" class="mt-5 space-y-4">
+                <div>
+                    <label for="registerName" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Nome completo</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input id="registerName" type="text" autocomplete="name" minlength="2" maxlength="100" required class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-10 pr-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="Seu nome">
+                    </div>
+                </div>
+                <div>
+                    <label for="registerEmail" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">E-mail</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input id="registerEmail" type="email" autocomplete="email" required class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-10 pr-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="voce@empresa.com">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                        <label for="registerPassword" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Senha</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input id="registerPassword" type="password" autocomplete="new-password" minlength="6" required class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-10 pr-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="Mínimo 6 caracteres">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="registerPasswordConfirm" class="mb-1.5 block text-xs font-semibold text-slate-700 dark:text-slate-300">Confirmar senha</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input id="registerPasswordConfirm" type="password" autocomplete="new-password" minlength="6" required class="w-full rounded-xl border border-slate-300 bg-white py-3 pl-10 pr-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="Repita a senha">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-600 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300">
+                    <input id="registerPrivacyAccepted" type="checkbox" required class="mt-1 rounded border-slate-300 text-blue-600 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-900">
+                    <span>Li e compreendi o <button type="button" onclick="openPrivacyModal()" class="font-semibold text-blue-600 hover:underline dark:text-blue-400">Aviso de Privacidade</button>.</span>
+                </div>
+                <button id="registerSubmitButton" type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Criar conta</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="fixed inset-0 z-[130] bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+            <div class="flex items-start justify-between border-b border-slate-200 p-6 dark:border-slate-700">
+                <div class="flex items-start gap-3">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">Transparência</p>
+                        <h3 class="mt-1 text-lg font-bold text-slate-900 dark:text-white">Aviso de Privacidade</h3>
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Como o GanttPro trata seus dados pessoais conforme a LGPD.</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closePrivacyModal()" class="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="space-y-6 overflow-y-auto p-6 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                <section>
+                    <h4 class="font-bold text-slate-900 dark:text-white">1. Controlador e escopo</h4>
+                    <p class="mt-1">O GanttPro trata dados pessoais para autenticar usuários, organizar projetos e oferecer o ambiente de planejamento. Este aviso descreve o tratamento realizado nesta aplicação.</p>
+                </section>
+                <section>
+                    <h4 class="font-bold text-slate-900 dark:text-white">2. Dados coletados</h4>
+                    <p class="mt-1">Nome, e-mail, datas relacionadas à conta, projetos, tarefas, responsáveis, marcos, filtros e preferências de visualização. A senha é convertida em resumo criptográfico e nunca é exibida ou armazenada em texto aberto.</p>
+                </section>
+                <section>
+                    <h4 class="font-bold text-slate-900 dark:text-white">3. Finalidade e base legal</h4>
+                    <p class="mt-1">Os dados são usados para manter o acesso, executar o serviço solicitado, organizar o cronograma e proteger cada conta. O tratamento observa a Lei nº 13.709/2018, inclusive os pressupostos de execução de procedimentos preliminares e de contrato, além dos demais fundamentos aplicáveis a cada finalidade.</p>
+                </section>
+                <section>
+                    <h4 class="font-bold text-slate-900 dark:text-white">4. Compartilhamento</h4>
+                    <p class="mt-1">Os dados são gravados no navegador do próprio usuário, sem envio a servidores ou terceiros. O GanttPro não vende dados pessoais nem os utiliza para publicidade.</p>
+                </section>
+                <section>
+                    <h4 class="font-bold text-slate-900 dark:text-white">5. Armazenamento e segurança</h4>
+                    <p class="mt-1">Os registros são separados por identificador de usuário e o acesso depende da validação de e-mail e senha. O acesso indevido deve ser comunicado ao controlador para adoção de medidas corretivas.</p>
+                </section>
+                <section>
+                    <h4 class="font-bold text-slate-900 dark:text-white">6. Retenção</h4>
+                    <p class="mt-1">Os dados são mantidos enquanto a conta estiver ativa e pelo período necessário ao uso do serviço, ao cumprimento de obrigações e à resolução de conflitos. Solicitações de eliminação ou anonimização devem ser avaliadas conforme a base legal aplicável.</p>
+                </section>
+                <section>
+                    <h4 class="font-bold text-slate-900 dark:text-white">7. Direitos do titular</h4>
+                    <p class="mt-1">Nos termos da LGPD, o titular pode solicitar confirmação, acesso, correção, anonimização, bloqueio, eliminação, portabilidade e informações sobre o tratamento, além de revogar o consentimento quando utilizado como fundamento. É possível apresentar reclamação à Autoridade Nacional de Proteção de Dados.</p>
+                </section>
+                <section>
+                    <h4 class="font-bold text-slate-900 dark:text-white">8. Contato</h4>
+                    <p class="mt-1">Solicitações relacionadas aos dados pessoais devem ser encaminhadas ao controlador por meio do canal de atendimento disponibilizado com esta aplicação. O pedido deve permitir confirmar a identidade do titular para proteger seus dados.</p>
+                </section>
+                <p class="border-t border-slate-200 pt-4 text-xs text-slate-400 dark:border-slate-700">Versão 1.0 — atualizada em 25 de setembro de 2026.</p>
+            </div>
+            <div class="border-t border-slate-200 p-4 text-right dark:border-slate-700">
+                <button type="button" onclick="closePrivacyModal()" class="rounded-xl bg-blue-600 px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-blue-500">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminPanel" class="fixed inset-0 z-[125] hidden flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm">
+        <div class="flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+            <div class="flex items-start justify-between border-b border-slate-200 p-6 dark:border-slate-700">
+                <div class="flex items-start gap-3">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">Administração</p>
+                        <h3 class="mt-1 text-lg font-bold text-slate-900 dark:text-white">Gestão de usuários</h3>
+                        <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Contas cadastradas no ambiente GanttPro.</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeAdminPanel()" class="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3 border-b border-slate-200 p-4 sm:grid-cols-3 dark:border-slate-700">
+                <div class="rounded-xl bg-slate-50 p-3 dark:bg-slate-950">
+                    <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Total de contas</p>
+                    <p id="adminTotalUsers" class="mt-1 text-xl font-bold text-slate-900 dark:text-white">0</p>
+                </div>
+                <div class="rounded-xl bg-emerald-50 p-3 dark:bg-emerald-950/20">
+                    <p class="text-[10px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Acesso liberado</p>
+                    <p id="adminActiveUsers" class="mt-1 text-xl font-bold text-emerald-700 dark:text-emerald-300">0</p>
+                </div>
+                <div class="rounded-xl bg-rose-50 p-3 dark:bg-rose-950/20">
+                    <p class="text-[10px] font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">Acesso bloqueado</p>
+                    <p id="adminBlockedUsers" class="mt-1 text-xl font-bold text-rose-700 dark:text-rose-300">0</p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 border-b border-slate-200 p-4 dark:border-slate-700">
+                <div class="relative min-w-56 flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input id="adminUserSearch" type="search" oninput="renderAdminUsers()" class="w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-10 pr-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" placeholder="Buscar por nome, e-mail ou identificador">
+                </div>
+                <button type="button" onclick="openAdminPanel()" class="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-semibold text-slate-600 transition hover:border-blue-300 hover:text-blue-600 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-300">
+                    <i class="fa-solid fa-rotate"></i> Atualizar
+                </button>
+            </div>
+
+            <div class="min-h-56 flex-1 overflow-auto p-4">
+                <p id="adminPanelStatus" class="py-10 text-center text-sm text-slate-500 dark:text-slate-400">Carregando usuários...</p>
+                <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+                    <table class="w-full min-w-[840px] text-left text-xs">
+                        <thead class="bg-slate-50 text-[10px] uppercase tracking-wider text-slate-500 dark:bg-slate-950 dark:text-slate-400">
+                            <tr>
+                                <th class="px-4 py-3 font-semibold">Usuário</th>
+                                <th class="px-4 py-3 font-semibold">Perfil</th>
+                                <th class="px-4 py-3 font-semibold">Situação</th>
+                                <th class="px-4 py-3 font-semibold">Último acesso</th>
+                                <th class="px-4 py-3 text-right font-semibold">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminUsersBody" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-200 p-4 text-xs leading-5 text-slate-500 dark:border-slate-700 dark:text-slate-400">
+                Bloquear impede o uso do aplicativo sem remover a autenticação. Excluir dados remove projetos, perfil e preferências, mantém a conta bloqueada e exige novo cadastro pelo usuário.
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-5 right-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs z-[140] opacity-0 pointer-events-none transition-all duration-300 transform translate-y-2">
         <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-500 dark:text-emerald-400 text-base"></i>
         <span id="toastMessage">Operação realizada com sucesso.</span>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, deleteDoc, collection, onSnapshot, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script>
+        // --- STORAGE INITIALIZATION ---
+        const ADMIN_EMAIL = 'guilherme.macchia@colegioesmeraldas.com.br';
+        const ACCOUNTS_STORAGE_KEY = 'ganttpro_accounts';
+        const DIRECTORY_STORAGE_KEY = 'ganttpro_directory';
+        const SESSION_STORAGE_KEY = 'ganttpro_session';
+        const PROJECTS_STORAGE_PREFIX = 'ganttpro_projects_';
+        const PROFILE_STORAGE_PREFIX = 'ganttpro_profile_';
+        const STATE_STORAGE_PREFIX = 'ganttpro_state_';
+        const ACCESS_POLL_INTERVAL = 8000;
 
-        // --- FIREBASE & STORAGE INITIALIZATION ---
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'gantt-pro-app';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' 
-            ? JSON.parse(__firebase_config) 
-            : null;
-
-        let app = null;
-        let auth = null;
-        let db = null;
-
-        if (firebaseConfig && firebaseConfig.apiKey !== 'demo') {
-            try {
-                app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
-                
-                // Enable offline persistence so data is saved locally in browser DB if network drops
-                enableIndexedDbPersistence(db).catch((err) => {
-                    console.warn('Persistência offline já ativada em outra aba ou não suportada:', err.code);
-                });
-            } catch (err) {
-                console.warn('Erro ao inicializar Firebase:', err);
-            }
-        }
-
+        let isCurrentUserAdmin = false;
+        let adminUsers = [];
+        let accessPollTimer = null;
         let user = null;
         let userId = null;
 
         // --- PRESET TEMPLATES DATA ---
         const PRESETS = {
             software: [
-                { id: '1', name: 'Levantamento de Requisitos', start: '2026-10-01', end: '2026-10-05', progress: 100, priority: 'Alta', assignee: 'Carlos Rocha', predecessor: '', isMilestone: false },
-                { id: '2', name: 'Arquitetura e Design UX/UI', start: '2026-10-06', end: '2026-10-12', progress: 100, priority: 'Média', assignee: 'Mariana Lima', predecessor: '1', isMilestone: false },
-                { id: '3', name: 'Aprovação do Protótipo', start: '2026-10-13', end: '2026-10-13', progress: 100, priority: 'Crítica', assignee: 'Cliente / PO', predecessor: '2', isMilestone: true },
-                { id: '4', name: 'Desenvolvimento do Backend API', start: '2026-10-14', end: '2026-10-25', progress: 65, priority: 'Crítica', assignee: 'Lucas Mendes', predecessor: '3', isMilestone: false },
-                { id: '5', name: 'Desenvolvimento do Frontend App', start: '2026-10-18', end: '2026-10-28', progress: 40, priority: 'Alta', assignee: 'Ana Beatriz', predecessor: '3', isMilestone: false },
+                { id: '1', name: 'Levantamento de Requisitos', start: '2026-10-01', end: '2026-10-05', progress: 0, priority: 'Alta', assignee: 'Carlos Rocha', predecessor: '', isMilestone: false },
+                { id: '2', name: 'Arquitetura e Design UX/UI', start: '2026-10-06', end: '2026-10-12', progress: 0, priority: 'Média', assignee: 'Mariana Lima', predecessor: '1', isMilestone: false },
+                { id: '3', name: 'Aprovação do Protótipo', start: '2026-10-13', end: '2026-10-13', progress: 0, priority: 'Crítica', assignee: 'Cliente / PO', predecessor: '2', isMilestone: true },
+                { id: '4', name: 'Desenvolvimento do Backend API', start: '2026-10-14', end: '2026-10-25', progress: 0, priority: 'Crítica', assignee: 'Lucas Mendes', predecessor: '3', isMilestone: false },
+                { id: '5', name: 'Desenvolvimento do Frontend App', start: '2026-10-18', end: '2026-10-28', progress: 0, priority: 'Alta', assignee: 'Ana Beatriz', predecessor: '3', isMilestone: false },
                 { id: '6', name: 'Integração & Testes Automatizados', start: '2026-10-26', end: '2026-11-02', progress: 0, priority: 'Alta', assignee: 'Pedro Santos', predecessor: '4', isMilestone: false },
                 { id: '7', name: 'Deploy em Homologação', start: '2026-11-03', end: '2026-11-03', progress: 0, priority: 'Crítica', assignee: 'DevOps Team', predecessor: '6', isMilestone: true },
                 { id: '8', name: 'Treinamento de Usuários e Go-Live', start: '2026-11-04', end: '2026-11-08', progress: 0, priority: 'Média', assignee: 'Mariana Lima', predecessor: '7', isMilestone: false }
             ],
             construction: [
-                { id: '1', name: 'Estudo de Solo e Topografia', start: '2026-10-01', end: '2026-10-07', progress: 100, priority: 'Alta', assignee: 'Eng. Roberto', predecessor: '', isMilestone: false },
-                { id: '2', name: 'Fundação e Estaqueamento', start: '2026-10-08', end: '2026-10-20', progress: 80, priority: 'Crítica', assignee: 'Equipe de Obras', predecessor: '1', isMilestone: false },
+                { id: '1', name: 'Estudo de Solo e Topografia', start: '2026-10-01', end: '2026-10-07', progress: 0, priority: 'Alta', assignee: 'Eng. Roberto', predecessor: '', isMilestone: false },
+                { id: '2', name: 'Fundação e Estaqueamento', start: '2026-10-08', end: '2026-10-20', progress: 0, priority: 'Crítica', assignee: 'Equipe de Obras', predecessor: '1', isMilestone: false },
                 { id: '3', name: 'Inspeção de Estrutura Inicial', start: '2026-10-21', end: '2026-10-21', progress: 0, priority: 'Crítica', assignee: 'Fiscal Técnico', predecessor: '2', isMilestone: true },
                 { id: '4', name: 'Levantamento de Alvenaria', start: '2026-10-22', end: '2026-11-05', progress: 0, priority: 'Média', assignee: 'Mestre de Obras', predecessor: '3', isMilestone: false },
                 { id: '5', name: 'Instalações Elétricas e Hidráulicas', start: '2026-10-28', end: '2026-11-12', progress: 0, priority: 'Alta', assignee: 'Eletricista / Encanador', predecessor: '4', isMilestone: false },
                 { id: '6', name: 'Acabamento e Pintura', start: '2026-11-13', end: '2026-11-25', progress: 0, priority: 'Baixa', assignee: 'Pintores', predecessor: '5', isMilestone: false }
             ],
             marketing: [
-                { id: '1', name: 'Definição de Persona e Copywriting', start: '2026-10-01', end: '2026-10-06', progress: 100, priority: 'Alta', assignee: 'Juliana Paes', predecessor: '', isMilestone: false },
-                { id: '2', name: 'Criação de Peças Gráficas e Vídeos', start: '2026-10-07', end: '2026-10-15', progress: 90, priority: 'Média', assignee: 'Design Team', predecessor: '1', isMilestone: false },
-                { id: '3', name: 'Configuração das Campanha Ads', start: '2026-10-14', end: '2026-10-18', progress: 30, priority: 'Alta', assignee: 'Gestor de Tráfego', predecessor: '2', isMilestone: false },
+                { id: '1', name: 'Definição de Persona e Copywriting', start: '2026-10-01', end: '2026-10-06', progress: 0, priority: 'Alta', assignee: 'Juliana Paes', predecessor: '', isMilestone: false },
+                { id: '2', name: 'Criação de Peças Gráficas e Vídeos', start: '2026-10-07', end: '2026-10-15', progress: 0, priority: 'Média', assignee: 'Design Team', predecessor: '1', isMilestone: false },
+                { id: '3', name: 'Configuração das Campanha Ads', start: '2026-10-14', end: '2026-10-18', progress: 0, priority: 'Alta', assignee: 'Gestor de Tráfego', predecessor: '2', isMilestone: false },
                 { id: '4', name: 'Lançamento Oficial do Produto', start: '2026-10-19', end: '2026-10-19', progress: 0, priority: 'Crítica', assignee: 'Diretoria Marketing', predecessor: '3', isMilestone: true },
                 { id: '5', name: 'Análise de Métricas e ROAS', start: '2026-10-30', end: '2026-11-05', progress: 0, priority: 'Média', assignee: 'Analista de Dados', predecessor: '4', isMilestone: false }
             ]
@@ -550,8 +824,189 @@
                 text.innerText = 'Erro ao sincronizar';
             } else if (state === 'connecting') {
                 icon.className = 'fa-solid fa-circle-notch fa-spin text-blue-500';
-                text.innerText = 'Conectando ao banco de dados...';
+                text.innerText = 'Carregando seus dados...';
             }
+        }
+
+        function isAdminAccount(account) {
+            return account?.email?.toLowerCase() === ADMIN_EMAIL;
+        }
+
+        function readStorage(key, fallbackValue) {
+            try {
+                const rawValue = localStorage.getItem(key);
+                if (!rawValue) return fallbackValue;
+                const parsedValue = JSON.parse(rawValue);
+                return parsedValue ?? fallbackValue;
+            } catch (err) {
+                console.warn(`Não foi possível ler "${key}" do armazenamento local:`, err);
+                return fallbackValue;
+            }
+        }
+
+        function writeStorage(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+                return true;
+            } catch (err) {
+                console.error(`Não foi possível gravar "${key}" no armazenamento local:`, err);
+                return false;
+            }
+        }
+
+        function removeStorage(key) {
+            try {
+                localStorage.removeItem(key);
+            } catch (err) {
+                console.warn(`Não foi possível remover "${key}" do armazenamento local:`, err);
+            }
+        }
+
+        function createLocalId() {
+            if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+            return `usr_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+        }
+
+        function createSalt() {
+            if (window.crypto?.getRandomValues) {
+                const bytes = new Uint8Array(16);
+                window.crypto.getRandomValues(bytes);
+                return Array.from(bytes).map(byte => byte.toString(16).padStart(2, '0')).join('');
+            }
+            return Math.random().toString(36).slice(2) + Date.now().toString(36);
+        }
+
+        async function hashPassword(password, salt) {
+            const payload = `${salt}:${password}`;
+
+            if (window.crypto?.subtle) {
+                const digest = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(payload));
+                return Array.from(new Uint8Array(digest))
+                    .map(byte => byte.toString(16).padStart(2, '0'))
+                    .join('');
+            }
+
+            let fallbackHash = 5381;
+            for (let index = 0; index < payload.length; index++) {
+                fallbackHash = ((fallbackHash << 5) + fallbackHash + payload.charCodeAt(index)) >>> 0;
+            }
+            return `local_${fallbackHash.toString(16)}`;
+        }
+
+        function getLocalAccounts() {
+            const accounts = readStorage(ACCOUNTS_STORAGE_KEY, []);
+            return Array.isArray(accounts) ? accounts : [];
+        }
+
+        function saveLocalAccounts(accounts) {
+            return writeStorage(ACCOUNTS_STORAGE_KEY, accounts);
+        }
+
+        function findLocalAccountByEmail(email) {
+            const normalizedEmail = String(email || '').trim().toLowerCase();
+            return getLocalAccounts().find(account => account.email === normalizedEmail) || null;
+        }
+
+        function findLocalAccountById(id) {
+            return getLocalAccounts().find(account => account.uid === id) || null;
+        }
+
+        function getUserDirectory() {
+            const directory = readStorage(DIRECTORY_STORAGE_KEY, []);
+            return Array.isArray(directory) ? directory : [];
+        }
+
+        function saveUserDirectory(directory) {
+            return writeStorage(DIRECTORY_STORAGE_KEY, directory);
+        }
+
+        function upsertDirectoryEntry(entry) {
+            const directory = getUserDirectory();
+            const index = directory.findIndex(item => item.uid === entry.uid);
+            if (index === -1) {
+                directory.push(entry);
+            } else {
+                directory[index] = { ...directory[index], ...entry };
+            }
+            saveUserDirectory(directory);
+            return directory.find(item => item.uid === entry.uid);
+        }
+
+        function setStoredSession(account) {
+            writeStorage(SESSION_STORAGE_KEY, { uid: account.uid, signedInAt: Date.now() });
+        }
+
+        function clearStoredSession() {
+            removeStorage(SESSION_STORAGE_KEY);
+        }
+
+        function getStoredSession() {
+            return readStorage(SESSION_STORAGE_KEY, null);
+        }
+
+        function buildLocalUser(account) {
+            return {
+                uid: account.uid,
+                email: account.email,
+                displayName: account.name || '',
+                emailVerified: true
+            };
+        }
+
+        async function createLocalAccount({ name, email, password }) {
+            const accounts = getLocalAccounts();
+            const normalizedEmail = email.trim().toLowerCase();
+
+            if (accounts.some(account => account.email === normalizedEmail)) {
+                return { ok: false, message: 'Este e-mail já possui uma conta.' };
+            }
+
+            const salt = createSalt();
+            const account = {
+                uid: createLocalId(),
+                name: name.trim(),
+                email: normalizedEmail,
+                salt,
+                passwordHash: await hashPassword(password, salt),
+                createdAt: Date.now()
+            };
+
+            accounts.push(account);
+            if (!saveLocalAccounts(accounts)) {
+                return { ok: false, message: 'Não foi possível salvar a conta neste navegador.' };
+            }
+
+            return { ok: true, account };
+        }
+
+        async function authenticateLocalAccount(email, password) {
+            const account = findLocalAccountByEmail(email);
+            if (!account) {
+                return { ok: false, message: 'Não encontramos uma conta com este e-mail.' };
+            }
+
+            const passwordHash = await hashPassword(password, account.salt);
+            if (passwordHash !== account.passwordHash) {
+                return { ok: false, message: 'E-mail ou senha inválidos.' };
+            }
+
+            return { ok: true, account };
+        }
+
+        async function setLocalAccountPassword(uid, password) {
+            const accounts = getLocalAccounts();
+            const index = accounts.findIndex(account => account.uid === uid);
+            if (index === -1) return false;
+
+            const salt = createSalt();
+            accounts[index] = {
+                ...accounts[index],
+                salt,
+                passwordHash: await hashPassword(password, salt),
+                updatedAt: Date.now()
+            };
+
+            return saveLocalAccounts(accounts);
         }
 
         function loadInitialFallbackData() {
@@ -572,113 +1027,587 @@
             updateSyncStatus('saved', 'Autosalvamento em modo de sessão');
         }
 
-        async function initAuthAndFirestore() {
-            if (!auth || !db) {
-                loadInitialFallbackData();
-                return;
+        function setAuthMessage(message, type = 'info') {
+            const status = document.getElementById('authStatus');
+            if (!status) return;
+
+            const baseClass = 'mt-4 min-h-5 text-center text-xs';
+            const typeClass = {
+                info: 'text-slate-500 dark:text-slate-400',
+                success: 'text-emerald-600 dark:text-emerald-400',
+                error: 'text-rose-600 dark:text-rose-400'
+            }[type] || 'text-slate-500 dark:text-slate-400';
+
+            status.className = `${baseClass} ${typeClass}`;
+            status.textContent = message;
+        }
+
+        function setButtonBusy(button, isBusy) {
+            if (!button) return;
+            const label = button.querySelector('span');
+            button.disabled = isBusy;
+
+            if (!label) return;
+            if (isBusy) {
+                button.dataset.originalLabel = label.textContent;
+                label.textContent = 'Aguarde...';
+            } else {
+                label.textContent = button.dataset.originalLabel || 'Entrar';
+            }
+        }
+
+        function setAuthScreenVisible(isVisible) {
+            document.getElementById('authScreen')?.classList.toggle('hidden', !isVisible);
+        }
+
+        function getInitialName(account) {
+            if (account?.displayName) return account.displayName.trim();
+            if (account?.email) return account.email.split('@')[0];
+            return 'Usuário GanttPro';
+        }
+
+        function updateAccountUI(profile = {}) {
+            const displayName = (profile.name || user?.displayName || getInitialName(user) || 'Usuário GanttPro').trim();
+            const email = profile.email || user?.email || '';
+            const initial = displayName.charAt(0).toUpperCase() || 'G';
+
+            isCurrentUserAdmin = isAdminAccount(user);
+            document.getElementById('accountAvatar').textContent = initial;
+            document.getElementById('accountDisplayName').textContent = displayName;
+            document.getElementById('accountEmail').textContent = email;
+            document.getElementById('accountDropdownName').textContent = displayName;
+            document.getElementById('accountDropdownEmail').textContent = email;
+            document.getElementById('accountRoleBadge').classList.toggle('hidden', !isCurrentUserAdmin);
+            document.getElementById('adminPanelButton').classList.toggle('hidden', !isCurrentUserAdmin);
+        }
+
+        function toggleAccountMenu(forceState) {
+            const dropdown = document.getElementById('accountDropdown');
+            const button = document.getElementById('accountMenuButton');
+            if (!dropdown || !button) return;
+
+            const shouldOpen = typeof forceState === 'boolean' ? forceState : dropdown.classList.contains('hidden');
+            dropdown.classList.toggle('hidden', !shouldOpen);
+            button.setAttribute('aria-expanded', String(shouldOpen));
+        }
+
+        function clearAuthenticatedSession() {
+            if (accessPollTimer) {
+                clearInterval(accessPollTimer);
+                accessPollTimer = null;
             }
 
-            updateSyncStatus('connecting');
+            user = null;
+            userId = null;
+            projects = [];
+            tasks = [];
+            currentProjectId = '';
+            isCurrentUserAdmin = false;
+            adminUsers = [];
+            closeAdminPanel();
+            toggleAccountMenu(false);
+        }
 
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    const userCred = await signInWithCustomToken(auth, __initial_auth_token);
-                    user = userCred.user;
-                } else {
-                    const userCred = await signInAnonymously(auth);
-                    user = userCred.user;
-                }
-            } catch (err) {
-                console.warn('Tentando logon anônimo secundário...', err);
-                try {
-                    const userCred = await signInAnonymously(auth);
-                    user = userCred.user;
-                } catch (anonErr) {
-                    console.warn('Usando armazenamento local/em memória.', anonErr);
-                    loadInitialFallbackData();
-                    return;
-                }
-            }
+        function getUserDirectoryEntry(uid) {
+            return getUserDirectory().find(entry => entry.uid === uid) || null;
+        }
 
-            if (!user) {
-                loadInitialFallbackData();
-                return;
-            }
+        function syncUserDirectory(profile = {}) {
+            const account = user;
+            if (!account) return null;
 
-            userId = user.uid;
-
-            // Load last active user state (active project ID and view preferences)
-            try {
-                const stateRef = doc(db, 'artifacts', appId, 'users', userId, 'settings', 'user_state');
-                const stateSnap = await getDoc(stateRef);
-                if (stateSnap.exists()) {
-                    const stateData = stateSnap.data();
-                    if (stateData.lastActiveProjectId) currentProjectId = stateData.lastActiveProjectId;
-                    if (stateData.activeView) activeView = stateData.activeView;
-                }
-            } catch (e) {
-                console.warn('Erro ao carregar preferências de estado:', e);
-            }
-
-            // Subscribe to Firestore Projects Collection (Strict Rule Path)
-            const projectsCol = collection(db, 'artifacts', appId, 'users', userId, 'projects');
-
-            onSnapshot(projectsCol, (snapshot) => {
-                if (snapshot.empty) {
-                    const defaultProjects = [
-                        { id: 'proj_software', name: '🚀 Dev de Software', tasks: PRESETS.software },
-                        { id: 'proj_construction', name: '🏗️ Construção Civil', tasks: PRESETS.construction },
-                        { id: 'proj_marketing', name: '📢 Lançamento Marketing', tasks: PRESETS.marketing }
-                    ];
-
-                    defaultProjects.forEach(p => {
-                        saveProjectToFirestore(p);
-                    });
-                    projects = defaultProjects;
-                } else {
-                    const loaded = [];
-                    snapshot.forEach(doc => {
-                        loaded.push(doc.data());
-                    });
-                    projects = loaded;
-                }
-
-                if (!projects.find(p => p.id === currentProjectId) && projects.length > 0) {
-                    currentProjectId = projects[0].id;
-                }
-
-                const currentProj = projects.find(p => p.id === currentProjectId);
-                tasks = currentProj ? (currentProj.tasks || []) : [];
-
-                renderProjectSelect();
-                populateAssigneeFilter();
-                switchMainView(activeView || 'gantt');
-                renderGantt();
-                updateSyncStatus('saved');
-            }, (error) => {
-                console.error("Erro no listener do banco de dados:", error);
-                loadInitialFallbackData();
+            const now = Date.now();
+            return upsertDirectoryEntry({
+                uid: account.uid,
+                name: (profile.name || account.displayName || getInitialName(account)).trim(),
+                email: (profile.email || account.email || '').toLowerCase(),
+                createdAt: getUserDirectoryEntry(account.uid)?.createdAt || now,
+                updatedAt: now,
+                lastLoginAt: now
             });
         }
 
-        async function saveAppStateToFirestore() {
-            if (!db || !user || !userId) return;
+        function startUserAccessWatcher() {
+            if (accessPollTimer) clearInterval(accessPollTimer);
+
+            accessPollTimer = setInterval(() => {
+                if (!user) return;
+                if (getUserDirectoryEntry(user.uid)?.blocked === true) {
+                    setAuthMessage('Seu acesso foi bloqueado pelo administrador.', 'error');
+                    handleLogout();
+                }
+            }, ACCESS_POLL_INTERVAL);
+        }
+
+        function ensureUserProfile(account) {
+            const profileKey = `${PROFILE_STORAGE_PREFIX}${account.uid}`;
+            const now = Date.now();
+            const currentProfile = readStorage(profileKey, null);
+
+            if (!currentProfile) {
+                const profile = {
+                    name: account.displayName || getInitialName(account),
+                    email: account.email,
+                    createdAt: now,
+                    updatedAt: now,
+                    lastLoginAt: now
+                };
+                writeStorage(profileKey, profile);
+                return profile;
+            }
+
+            const profile = { ...currentProfile, updatedAt: now, lastLoginAt: now };
+            if (account.displayName && currentProfile.name !== account.displayName) {
+                profile.name = account.displayName;
+            }
+            writeStorage(profileKey, profile);
+            return profile;
+        }
+
+        const TEMPLATE_TASK_PROGRESS = {
+            proj_software: { '1': 100, '2': 100, '3': 100, '4': 65, '5': 40, '6': 0, '7': 0, '8': 0 },
+            proj_construction: { '1': 100, '2': 80, '3': 0, '4': 0, '5': 0, '6': 0 },
+            proj_marketing: { '1': 100, '2': 90, '3': 30, '4': 0, '5': 0 }
+        };
+
+        function applyTemplateProgressReset(projectList) {
+            let changed = false;
+
+            projectList.forEach(project => {
+                const templateProgress = TEMPLATE_TASK_PROGRESS[project.id];
+                if (!templateProgress) return;
+
+                (project.tasks || []).forEach(task => {
+                    const templateValue = templateProgress[String(task.id)];
+                    if (templateValue && Number(task.progress) === templateValue) {
+                        task.progress = 0;
+                        changed = true;
+                    }
+                });
+            });
+
+            return changed;
+        }
+
+        function loadUserState() {
+            const stateData = readStorage(`${STATE_STORAGE_PREFIX}${userId}`, null);
+            if (!stateData) return;
+
+            if (stateData.lastActiveProjectId) currentProjectId = stateData.lastActiveProjectId;
+            if (stateData.activeView) activeView = stateData.activeView;
+        }
+
+        function loadProjectsFromStorage() {
+            const authenticatedUid = userId;
+            const storedProjects = readStorage(`${PROJECTS_STORAGE_PREFIX}${authenticatedUid}`, null);
+
+            if (Array.isArray(storedProjects) && storedProjects.length > 0) {
+                projects = storedProjects;
+                if (applyTemplateProgressReset(projects)) {
+                    writeStorage(`${PROJECTS_STORAGE_PREFIX}${authenticatedUid}`, projects.map(project => ({
+                        id: project.id,
+                        name: project.name,
+                        tasks: JSON.parse(JSON.stringify(project.tasks || [])),
+                        updatedAt: Date.now()
+                    })));
+                }
+            } else {
+                projects = [
+                    { id: 'proj_software', name: '🚀 Dev de Software', tasks: PRESETS.software },
+                    { id: 'proj_construction', name: '🏗️ Construção Civil', tasks: PRESETS.construction },
+                    { id: 'proj_marketing', name: '📢 Lançamento Marketing', tasks: PRESETS.marketing }
+                ];
+                projects.forEach(project => saveProjectLocally(project));
+            }
+
+            if (!projects.find(project => project.id === currentProjectId) && projects.length > 0) {
+                currentProjectId = projects[0].id;
+            }
+
+            const currentProject = projects.find(project => project.id === currentProjectId);
+            tasks = currentProject ? (currentProject.tasks || []) : [];
+
+            renderProjectSelect();
+            populateAssigneeFilter();
+            switchMainView(activeView || 'gantt');
+            renderGantt();
+            updateSyncStatus('saved');
+        }
+
+        async function openAuthenticatedSession(account) {
+            user = buildLocalUser(account);
+            userId = account.uid;
+            setStoredSession(account);
+            setAuthScreenVisible(true);
+            setAuthMessage('Carregando seus dados...');
+
+            const profile = ensureUserProfile(user);
+            syncUserDirectory(profile);
+            updateAccountUI(profile);
+            loadUserState();
+            loadProjectsFromStorage();
+            startUserAccessWatcher();
+            setAuthScreenVisible(false);
+        }
+
+        function initSession() {
+            const storedSession = getStoredSession();
+            const account = storedSession ? findLocalAccountById(storedSession.uid) : null;
+
+            if (!account) {
+                if (storedSession) clearStoredSession();
+                clearAuthenticatedSession();
+                setAuthScreenVisible(true);
+                setAuthMessage('Faça login para acessar seus projetos.');
+                return;
+            }
+
+            if (getUserDirectoryEntry(account.uid)?.blocked === true) {
+                clearStoredSession();
+                clearAuthenticatedSession();
+                setAuthScreenVisible(true);
+                setAuthMessage('Seu acesso está bloqueado. Fale com o administrador.', 'error');
+                return;
+            }
+
+            openAuthenticatedSession(account);
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const emailInput = document.getElementById('loginEmail');
+            const passwordInput = document.getElementById('loginPassword');
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
+
+            if (!email || !password) {
+                setAuthMessage('Informe seu e-mail e sua senha.', 'error');
+                return;
+            }
+
+            const submitButton = document.getElementById('loginSubmitButton');
+            setButtonBusy(submitButton, true);
+            setAuthMessage('Validando suas credenciais...');
+
+            const result = await authenticateLocalAccount(email, password);
+            if (!result.ok) {
+                setAuthMessage(result.message, 'error');
+                setButtonBusy(submitButton, false);
+                return;
+            }
+
+            if (getUserDirectoryEntry(result.account.uid)?.blocked === true) {
+                setAuthMessage('Seu acesso está bloqueado. Fale com o administrador.', 'error');
+                setButtonBusy(submitButton, false);
+                return;
+            }
+
+            passwordInput.value = '';
+            setButtonBusy(submitButton, false);
+            await openAuthenticatedSession(result.account);
+        }
+
+        function resetPassword() {
+            setAuthMessage('A redefinição de senha é realizada pelo administrador do GanttPro.', 'info');
+        }
+
+        function openRegisterModal() {
+            document.getElementById('registerForm').reset();
+            document.getElementById('registerModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('registerName').focus(), 0);
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.add('hidden');
+        }
+
+        async function registerAccount(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim().toLowerCase();
+            const password = document.getElementById('registerPassword').value;
+            const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+            const privacyAccepted = document.getElementById('registerPrivacyAccepted').checked;
+
+            if (name.length < 2) {
+                showToast('Informe um nome válido.', true);
+                return;
+            }
+
+            if (password.length < 6) {
+                showToast('A senha deve ter pelo menos 6 caracteres.', true);
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                showToast('As senhas informadas não coincidem.', true);
+                return;
+            }
+
+            if (!privacyAccepted) {
+                showToast('Leia e confirme o Aviso de Privacidade.', true);
+                return;
+            }
+
+            const submitButton = document.getElementById('registerSubmitButton');
+            setButtonBusy(submitButton, true);
+
+            const result = await createLocalAccount({ name, email, password });
+            if (!result.ok) {
+                showToast(result.message, true);
+                setButtonBusy(submitButton, false);
+                return;
+            }
+
+            document.getElementById('registerForm').reset();
+            closeRegisterModal();
+            setButtonBusy(submitButton, false);
+            await openAuthenticatedSession(result.account);
+        }
+
+        async function handleLogout() {
+            toggleAccountMenu(false);
+            closeAdminPanel();
+            clearStoredSession();
+            clearAuthenticatedSession();
+            setAuthScreenVisible(true);
+            setAuthMessage('Sessão encerrada.', 'success');
+        }
+
+        function openPrivacyModal() {
+            document.getElementById('privacyModal').classList.remove('hidden');
+        }
+
+        function closePrivacyModal() {
+            document.getElementById('privacyModal').classList.add('hidden');
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        function ensureCurrentUserIsAdmin() {
+            if (isCurrentUserAdmin) return true;
+            showToast('Ação disponível apenas para administradores.', true);
+            return false;
+        }
+
+        function formatAdminDate(timestamp) {
+            if (!timestamp) return 'Nunca';
+            const date = new Date(timestamp);
+            if (Number.isNaN(date.getTime())) return 'Indisponível';
+            return date.toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function openAdminPanel() {
+            if (!ensureCurrentUserIsAdmin()) return;
+            document.getElementById('adminPanel').classList.remove('hidden');
+            loadAdminUsers();
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanel')?.classList.add('hidden');
+        }
+
+        function loadAdminUsers() {
+            if (!ensureCurrentUserIsAdmin()) return;
+
+            const status = document.getElementById('adminPanelStatus');
+            status.classList.remove('hidden');
+            status.textContent = 'Carregando usuários...';
+
             try {
-                const stateRef = doc(db, 'artifacts', appId, 'users', userId, 'settings', 'user_state');
-                await setDoc(stateRef, {
-                    lastActiveProjectId: currentProjectId,
-                    activeView: activeView,
-                    updatedAt: Date.now()
-                }, { merge: true });
-            } catch (err) {
-                console.error("Erro ao salvar estado do usuário:", err);
+                adminUsers = getUserDirectory().map(entry => ({ ...entry, id: entry.uid }));
+                adminUsers.sort((firstUser, secondUser) => (firstUser.name || '').localeCompare(secondUser.name || '', 'pt-BR'));
+                status.classList.add('hidden');
+                renderAdminUsers();
+            } catch (error) {
+                console.error('Erro ao carregar usuários:', error);
+                status.textContent = 'Não foi possível carregar as contas.';
             }
         }
 
-        async function saveProjectToFirestore(proj) {
+        function renderAdminUsers() {
+            const term = document.getElementById('adminUserSearch')?.value.trim().toLowerCase() || '';
+            const blockedCount = adminUsers.filter(adminUser => adminUser.blocked === true).length;
+
+            document.getElementById('adminTotalUsers').textContent = adminUsers.length;
+            document.getElementById('adminActiveUsers').textContent = adminUsers.length - blockedCount;
+            document.getElementById('adminBlockedUsers').textContent = blockedCount;
+
+            const filteredUsers = adminUsers.filter(adminUser => {
+                if (!term) return true;
+                return [adminUser.name, adminUser.email, adminUser.uid]
+                    .some(value => String(value || '').toLowerCase().includes(term));
+            });
+
+            const tableBody = document.getElementById('adminUsersBody');
+            if (filteredUsers.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="px-4 py-10 text-center text-slate-500 dark:text-slate-400">Nenhuma conta encontrada.</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = filteredUsers.map(adminUser => {
+                const uid = escapeHtml(adminUser.uid);
+                const name = escapeHtml(adminUser.name || 'Usuário sem nome');
+                const email = escapeHtml(adminUser.email || 'E-mail não informado');
+                const isBlocked = adminUser.blocked === true;
+                const isCurrentUser = user?.uid === adminUser.uid;
+                const isAdmin = String(adminUser.email || '').toLowerCase() === ADMIN_EMAIL;
+                const roleLabel = isAdmin ? 'Administrador' : 'Usuário';
+                const roleClass = isAdmin
+                    ? 'bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-300'
+                    : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300';
+                const statusLabel = isBlocked ? 'Bloqueado' : 'Liberado';
+                const statusClass = isBlocked
+                    ? 'bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-300'
+                    : 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-300';
+                const actions = isCurrentUser
+                    ? '<span class="text-[11px] font-semibold text-blue-600 dark:text-blue-400">Conta atual</span>'
+                    : `
+                        <button type="button" onclick="setAdminUserBlocked('${uid}', ${isBlocked ? 'false' : 'true'})" class="rounded-lg border px-2.5 py-1.5 text-[10px] font-semibold transition ${isBlocked ? 'border-emerald-300 text-emerald-600 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950/30' : 'border-rose-300 text-rose-600 hover:bg-rose-50 dark:border-rose-700 dark:text-rose-400 dark:hover:bg-rose-950/30'}">
+                            ${isBlocked ? 'Liberar' : 'Bloquear'}
+                        </button>
+                        <button type="button" onclick="sendAdminPasswordReset('${uid}')" class="rounded-lg border border-slate-300 px-2.5 py-1.5 text-[10px] font-semibold text-slate-600 transition hover:border-blue-300 hover:text-blue-600 dark:border-slate-700 dark:text-slate-300 dark:hover:text-blue-400">
+                            Redefinir
+                        </button>
+                        <button type="button" onclick="confirmAdminDataDeletion('${uid}')" class="rounded-lg border border-rose-300 px-2.5 py-1.5 text-[10px] font-semibold text-rose-600 transition hover:bg-rose-50 dark:border-rose-700 dark:text-rose-400 dark:hover:bg-rose-950/30">
+                            Excluir dados
+                        </button>
+                    `;
+
+                return `
+                    <tr class="bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800/40">
+                        <td class="px-4 py-3">
+                            <p class="font-semibold text-slate-800 dark:text-slate-100">${name}</p>
+                            <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">${email}</p>
+                            <p class="mt-0.5 max-w-40 truncate text-[9px] text-slate-400" title="${uid}">${uid}</p>
+                        </td>
+                        <td class="px-4 py-3"><span class="rounded-full px-2 py-1 text-[10px] font-bold ${roleClass}">${roleLabel}</span></td>
+                        <td class="px-4 py-3"><span class="rounded-full px-2 py-1 text-[10px] font-bold ${statusClass}">${statusLabel}</span></td>
+                        <td class="px-4 py-3 text-slate-500 dark:text-slate-400">${escapeHtml(formatAdminDate(adminUser.lastLoginAt))}</td>
+                        <td class="px-4 py-3"><div class="flex items-center justify-end gap-1.5">${actions}</div></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function setAdminUserBlocked(uid, blocked) {
+            if (!ensureCurrentUserIsAdmin()) return;
+            if (user?.uid === uid) {
+                showToast('Você não pode bloquear a própria conta.', true);
+                return;
+            }
+
+            if (blocked && !window.confirm('Bloquear o acesso deste usuário ao GanttPro?')) return;
+
+            const entry = getUserDirectoryEntry(uid);
+            if (!entry) {
+                showToast('Conta não encontrada.', true);
+                return;
+            }
+
+            upsertDirectoryEntry({
+                uid,
+                blocked,
+                blockedAt: blocked ? Date.now() : null,
+                updatedAt: Date.now()
+            });
+
+            showToast(blocked ? 'Acesso bloqueado.' : 'Acesso liberado.');
+            loadAdminUsers();
+        }
+
+        async function sendAdminPasswordReset(uid) {
+            if (!ensureCurrentUserIsAdmin()) return;
+
+            const adminUser = adminUsers.find(account => account.uid === uid);
+            if (!adminUser) {
+                showToast('Conta não encontrada.', true);
+                return;
+            }
+
+            const newPassword = window.prompt(`Nova senha para ${adminUser.name || adminUser.email} (mínimo de 6 caracteres):`);
+            if (newPassword === null) return;
+            if (newPassword.length < 6) {
+                showToast('A senha deve ter pelo menos 6 caracteres.', true);
+                return;
+            }
+
+            const saved = await setLocalAccountPassword(uid, newPassword);
+            if (!saved) {
+                showToast('Não foi possível alterar a senha.', true);
+                return;
+            }
+
+            if (getUserDirectoryEntry(uid)?.blocked === true) {
+                upsertDirectoryEntry({ uid, blocked: false, blockedAt: null, updatedAt: Date.now() });
+            }
+
+            showToast('Senha redefinida e acesso liberado.');
+            loadAdminUsers();
+        }
+        function confirmAdminDataDeletion(uid) {
+            if (!ensureCurrentUserIsAdmin()) return;
+            const adminUser = adminUsers.find(account => account.uid === uid);
+            if (!adminUser) return;
+            if (user?.uid === uid) {
+                showToast('Você não pode excluir os próprios dados por aqui.', true);
+                return;
+            }
+
+            const confirmed = window.confirm(
+                `Excluir os dados de ${adminUser.name || adminUser.email}? Projetos, perfil e preferências serão removidos, a conta será preservada e o acesso permanecerá bloqueado.`
+            );
+            if (confirmed) deleteAdminUserData(uid);
+        }
+
+        function deleteAdminUserData(uid) {
+            if (!ensureCurrentUserIsAdmin()) return;
+            if (user?.uid === uid) return;
+
+            removeStorage(`${PROJECTS_STORAGE_PREFIX}${uid}`);
+            removeStorage(`${PROFILE_STORAGE_PREFIX}${uid}`);
+            removeStorage(`${STATE_STORAGE_PREFIX}${uid}`);
+
+            const now = Date.now();
+            upsertDirectoryEntry({
+                uid,
+                blocked: true,
+                blockedAt: now,
+                dataDeletedAt: now,
+                updatedAt: now
+            });
+
+            showToast('Dados do usuário excluídos e acesso bloqueado.');
+            loadAdminUsers();
+        }
+
+        function saveUserState() {
+            if (!user || !userId) return;
+            writeStorage(`${STATE_STORAGE_PREFIX}${userId}`, {
+                lastActiveProjectId: currentProjectId,
+                activeView: activeView,
+                updatedAt: Date.now()
+            });
+        }
+
+        function saveProjectLocally(proj) {
             if (!proj || !proj.id) return;
 
-            // Ensure instant in-memory update
             const idx = projects.findIndex(p => p.id === proj.id);
             if (idx !== -1) {
                 projects[idx] = { ...proj };
@@ -686,41 +1615,38 @@
                 projects.push({ ...proj });
             }
 
-            if (!db || !user || !userId) {
+            if (!user || !userId) {
                 updateSyncStatus('saved');
                 return;
             }
 
             updateSyncStatus('saving');
-            try {
-                const projRef = doc(db, 'artifacts', appId, 'users', userId, 'projects', proj.id);
-                await setDoc(projRef, {
-                    id: proj.id,
-                    name: proj.name,
-                    tasks: JSON.parse(JSON.stringify(proj.tasks || [])),
-                    updatedAt: Date.now()
-                }, { merge: true });
-                
-                await saveAppStateToFirestore();
+            const storedProjects = readStorage(`${PROJECTS_STORAGE_PREFIX}${userId}`, null);
+            const list = Array.isArray(storedProjects) ? storedProjects.filter(item => item.id !== proj.id) : [];
+            list.push({
+                id: proj.id,
+                name: proj.name,
+                tasks: JSON.parse(JSON.stringify(proj.tasks || [])),
+                updatedAt: Date.now()
+            });
+
+            if (writeStorage(`${PROJECTS_STORAGE_PREFIX}${userId}`, list)) {
+                saveUserState();
                 updateSyncStatus('saved');
-            } catch (err) {
-                console.error("Erro ao salvar projeto:", err);
+            } else {
                 updateSyncStatus('error');
             }
         }
 
-        async function deleteProjectFromFirestore(projId) {
-            if (!db || !user || !userId) return;
-            updateSyncStatus('saving');
-            try {
-                const projRef = doc(db, 'artifacts', appId, 'users', userId, 'projects', projId);
-                await deleteDoc(projRef);
-                await saveAppStateToFirestore();
-                updateSyncStatus('saved');
-            } catch (err) {
-                console.error("Erro ao remover projeto:", err);
-                updateSyncStatus('error');
-            }
+        function deleteProjectLocally(projId) {
+            if (!user || !userId) return;
+
+            const storedProjects = readStorage(`${PROJECTS_STORAGE_PREFIX}${userId}`, []);
+            if (!Array.isArray(storedProjects)) return;
+
+            writeStorage(`${PROJECTS_STORAGE_PREFIX}${userId}`, storedProjects.filter(item => item.id !== projId));
+            saveUserState();
+            updateSyncStatus('saved');
         }
 
         // --- THEME MANAGEMENT ---
@@ -754,12 +1680,20 @@
         }
 
         // --- INITIALIZATION ---
-        window.onload = function() {
+        function initApplication() {
             initTheme();
             setupPanelResizing();
-            initAuthAndFirestore();
+            initSession();
+        }
+
+        window.onload = function() {
+            initApplication();
             window.addEventListener('resize', () => {
                 renderGantt();
+            });
+            document.addEventListener('click', (event) => {
+                const accountMenu = document.getElementById('accountMenu');
+                if (accountMenu && !accountMenu.contains(event.target)) toggleAccountMenu(false);
             });
         };
 
@@ -782,7 +1716,7 @@
             const currentProj = projects.find(p => p.id === id);
             if (currentProj) {
                 tasks = currentProj.tasks || [];
-                saveAppStateToFirestore();
+                saveUserState();
                 populateAssigneeFilter();
                 renderGantt();
                 showToast(`Projeto "${currentProj.name}" selecionado.`);
@@ -800,7 +1734,7 @@
                 projects.push(currentProj);
             }
             currentProj.tasks = [...tasks];
-            saveProjectToFirestore(currentProj);
+            saveProjectLocally(currentProj);
         }
 
         function openProjectModal() {
@@ -827,7 +1761,7 @@
             currentProjectId = newProj.id;
             tasks = newProj.tasks;
 
-            saveProjectToFirestore(newProj);
+            saveProjectLocally(newProj);
             renderProjectSelect();
             populateAssigneeFilter();
             renderGantt();
@@ -852,7 +1786,7 @@
             if (index === -1) return;
 
             const deletedProj = projects[index];
-            deleteProjectFromFirestore(deletedProj.id);
+            deleteProjectLocally(deletedProj.id);
 
             projects.splice(index, 1);
 
@@ -864,7 +1798,7 @@
                 };
                 projects.push(defaultProj);
                 currentProjectId = defaultProj.id;
-                saveProjectToFirestore(defaultProj);
+                saveProjectLocally(defaultProj);
             } else {
                 currentProjectId = projects[Math.max(0, index - 1)].id;
             }
@@ -1264,18 +2198,30 @@
         // --- DASHBOARD KPI METRICS UPDATE ---
         function updateDashboardKPIs() {
             const total = tasks.length;
-            if (total === 0) return;
+            const progressBar = document.getElementById('overallProgressBar');
+            const progressText = document.getElementById('overallProgressText');
 
-            const completed = tasks.filter(t => t.progress === 100).length;
-            const inProgress = tasks.filter(t => t.progress > 0 && t.progress < 100).length;
-            
+            if (total === 0) {
+                progressBar.style.width = '0%';
+                progressText.innerText = '0%';
+                document.getElementById('totalTasksCount').innerText = 0;
+                document.getElementById('completedTasksCount').innerText = 0;
+                document.getElementById('inProgressTasksCount').innerText = 0;
+                document.getElementById('delayedTasksCount').innerText = 0;
+                return;
+            }
+
+            const taskProgress = task => Math.min(100, Math.max(0, Number(task.progress) || 0));
+            const completed = tasks.filter(task => taskProgress(task) === 100).length;
+            const inProgress = tasks.filter(task => taskProgress(task) > 0 && taskProgress(task) < 100).length;
+
             const todayStr = formatDateISO(new Date());
-            const delayed = tasks.filter(t => t.progress < 100 && t.end < todayStr).length;
+            const delayed = tasks.filter(task => taskProgress(task) < 100 && task.end < todayStr).length;
 
-            const avgProgress = Math.round(tasks.reduce((sum, t) => sum + Number(t.progress), 0) / total);
+            const avgProgress = Math.round(tasks.reduce((sum, task) => sum + taskProgress(task), 0) / total);
 
-            document.getElementById('overallProgressBar').style.width = `${avgProgress}%`;
-            document.getElementById('overallProgressText').innerText = `${avgProgress}%`;
+            progressBar.style.width = `${avgProgress}%`;
+            progressText.innerText = `${avgProgress}%`;
 
             document.getElementById('totalTasksCount').innerText = total;
             document.getElementById('completedTasksCount').innerText = completed;
@@ -1324,7 +2270,7 @@
         // --- VIEW SWITCHING MODE (GANTT vs DETAILED SCHEDULE) ---
         function switchMainView(mode) {
             activeView = mode;
-            saveAppStateToFirestore();
+            saveUserState();
             
             const ganttView = document.getElementById('mainGanttView');
             const scheduleView = document.getElementById('mainScheduleView');
@@ -1654,7 +2600,22 @@
             importJSON,
             switchMainView,
             setZoom,
-            renderGantt
+            renderGantt,
+            handleLogin,
+            resetPassword,
+            openRegisterModal,
+            closeRegisterModal,
+            registerAccount,
+            toggleAccountMenu,
+            handleLogout,
+            openPrivacyModal,
+            closePrivacyModal,
+            openAdminPanel,
+            closeAdminPanel,
+            renderAdminUsers,
+            setAdminUserBlocked,
+            sendAdminPasswordReset,
+            confirmAdminDataDeletion
         });
     </script>
 </body>
